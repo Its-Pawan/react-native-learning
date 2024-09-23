@@ -1,17 +1,44 @@
 import { View, Text, Image, TextInput } from "react-native";
 import UniversalBtn from "../components/UniversalBtn";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 
 const Login = () => {
-  const router = useRouter();
+  // state management ========
 
-  const handlePress = (text) => {
-    if (text === "Login") {
-      router.navigate("Login"); // Navigate to the Login screen
-    } else if (text === "Signup") {
-      router.navigate("Signup"); // Navigate to the Signup screen
+  const [value, setValue] = useState({
+    value1: "",
+    value2: "",
+  });
+
+  useEffect(() => {
+    console.log("calling blogs...");
+  }, []);
+
+  const handlePress = () => {
+    if (value.value1 === "" || value.value2 === "") {
+      alert("Please fill all the fields");
+      return;
     }
+    console.log(Number(value.value1) + Number(value.value2));
+    alert(Number(value.value1) + Number(value.value2));
+    setValue({
+      value1: "",
+      value2: "",
+    });
   };
+
+  // state management ========
+
+  // const router = useRouter();
+
+  // const handlePress = (text) => {
+  //   if (text === "Login") {
+  //     router.navigate("Login"); // Navigate to the Login screen
+  //   } else if (text === "Signup") {
+  //     router.navigate("Signup"); // Navigate to the Signup screen
+  //   }
+  // };
   return (
     <View
       style={{
@@ -35,7 +62,11 @@ const Login = () => {
             paddingHorizontal: 20,
             borderRadius: 10,
           }}
-          onChangeText={(text) => console.log(text)}
+          // onChangeText={(text) => console.log(text)}
+          onChangeText={(text) =>
+            setValue((prev) => ({ ...prev, value1: text }))
+          }
+          value={value.value1}
         />
         <TextInput
           placeholder="Enter Your Password"
@@ -45,7 +76,11 @@ const Login = () => {
             paddingHorizontal: 20,
             borderRadius: 10,
           }}
-          onChangeText={(text) => console.log(text)}
+          // onChangeText={(text) => console.log(text)}
+          onChangeText={(text) =>
+            setValue((prev) => ({ ...prev, value2: text }))
+          }
+          value={value.value2}
         />
       </View>
       <View
@@ -60,7 +95,7 @@ const Login = () => {
           text="Login"
           textColor="#fff"
           bgColor="#4180fe"
-          onPress={() => handlePress("Login")}
+          onPress={() => handlePress("Submit")}
         />
         <UniversalBtn
           text="Signup"
